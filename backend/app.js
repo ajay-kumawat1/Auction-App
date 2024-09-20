@@ -1,8 +1,9 @@
 import { config } from 'dotenv';
-import express, { urlencoded } from 'express';
+import express, { urlencoded , json} from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
+import { connectDB } from './database/db.js';
 
 const app = express();
 
@@ -17,11 +18,13 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/'
-}))
+}));
+
+connectDB();
 
 export default app;
